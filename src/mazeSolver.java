@@ -1,10 +1,10 @@
 import java.util.Queue;
 
-public abstract class mazeSolver {
+public abstract class mazeSolver implements Maze {
 
     protected Maze maze;
     private myQueue worklist = new myQueue();
-    worklist.add();
+    worklist.add(maze.getStart());
 
 
     /*
