@@ -1,11 +1,13 @@
 public class Square {
-    int row, col, type, initialType;
+    private int row, col, type, initialType;
+    private Square prev;
 
     public Square(int row, int col, int type) {
         this.row = row;
         this.col = col;
         this.type = type;
         this.initialType = type;
+        this.prev = null;
     }
 
     public int getRow() {
@@ -18,6 +20,14 @@ public class Square {
 
     public int getType() {
         return this.type;
+    }
+
+    public void setPrev(Square x) {
+        this.prev = x;
+    }
+
+    public Square getPrev() {
+        return this.prev;
     }
 
     public String toString() {
