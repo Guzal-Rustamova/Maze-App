@@ -1,4 +1,4 @@
-public class mazeStackTest {
+public class stackTest {
     public static void main(String[] args) {
         MyStack<Square> squares = new MyStack<>();
 
