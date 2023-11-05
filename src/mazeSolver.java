@@ -1,10 +1,10 @@
-import java.util.Queue;
+import java.util.ArrayList;
 
 public abstract class mazeSolver {
 
     protected Maze maze;
-    private myQueue worklist = new myQueue();
-    worklist.add();
+    private ArrayList<Square> worklist;
+    
 
 
     /*
@@ -14,6 +14,8 @@ public abstract class mazeSolver {
     public mazeSolver(Maze maze)
     {
         this.maze = maze;
+        this.worklist = new ArrayList<>();
+        //worklist.enqueue(maze.getStart());
     }
     
     /*
@@ -28,6 +30,7 @@ public abstract class mazeSolver {
 
     /*
      * add the given Square to the worklist
+     * when adding square, set square.prev
      */
     public abstract void add(Square sq); 
 
@@ -45,10 +48,7 @@ public abstract class mazeSolver {
 
     public boolean isSolved()
     {
-        if (worklist.isEmpty())
-        {
-            return false; 
-        }
+        return (worklist.contains(maze.getFinish()) || worklist.isEmpty());
     }
 
     /*
@@ -58,14 +58,15 @@ public abstract class mazeSolver {
      */
     public String getPath()
     {
-        String path = "["
-        if(!isSolved())
-        {
-            System.out.println("There is no solution to the Maze.");
-        } else 
-        {
-            path+=" "+worklist.getRow()+","+worklist.getCol()+"]";
+        String path = "[";
+        if(!isSolved()) return ("There is no solution to the Maze.");
+        
+        if (worklist.isEmpty()) return ("There is no possible path.");
+        
+        for (Square x : worklist) {
+            path += " "+x.getRow()+","+x.getCol()+"]";
         }
+        return path;
 
     }
 
@@ -73,8 +74,22 @@ public abstract class mazeSolver {
      * perform one iteration of the algorithm above (i.e., steps 1 through 5) and return
      *  the Square that was just explored (and null if no such Square exists). 
      */
-    public step()
+    public Square step()
     {
+        Square foo;
+        // if worklist empty, terminate program
+        if (worklist.isEmpty())
+        {
+            return null; 
+        }
+        // grab next location; aka next square in the queue / stack
+        foo = this.next();
+        if (foo.getRow() == maze.getFinish().getRow() && foo.getCol() == maze.getFinish().getCol()) return null;
+        // check if that location is the finish, if it is, terminate and the thing is solved
+        // else, explore adjacent squares and add them to the queue / stack
+        else {
+            this.add(foo); return foo;
+        }
 
     }
     public void solve()
