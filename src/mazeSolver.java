@@ -1,9 +1,10 @@
 import java.util.ArrayList;
+import java.util.Queue;
 
 public abstract class mazeSolver {
 
     protected Maze maze;
-    private ArrayList<Square> worklist;
+    protected myQueue worklist;
     
 
 
@@ -14,7 +15,6 @@ public abstract class mazeSolver {
     public mazeSolver(Maze maze)
     {
         this.maze = maze;
-        this.worklist = new ArrayList<>();
         //worklist.enqueue(maze.getStart());
     }
     
