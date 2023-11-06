@@ -1,10 +1,11 @@
 import java.util.ArrayList;
 
 public class mazeSolverQueue extends mazeSolver {
+    private myQueue<Square> worklist;
 
     public mazeSolverQueue(Maze maze) {
         super(maze);
-        worklist = new myQueue<Square>();
+        worklist = new myQueue<>();
     }
 
     public void makeEmpty() {

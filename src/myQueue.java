@@ -6,7 +6,7 @@ import org.junit.Test.None;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-public class myQueue implements QueueADT<Square> {
+public class myQueue<T> implements QueueADT<T> {
     private Node start;
     private Node end;
 
@@ -19,7 +19,7 @@ public class myQueue implements QueueADT<Square> {
      * Add an item to the queue
      * @param item the data item to add (of type T)
      */
-    public void enqueue(Square item) {
+    public void enqueue(T item) {
         Node foo = new Node(item);
         
         if (start == null) {
@@ -37,11 +37,11 @@ public class myQueue implements QueueADT<Square> {
      * @return the front item in the queue
      * @throws NoSuchElementException if the queue is empty
      */
-    public Square dequeue() throws NoSuchElementException {
+    public T dequeue() throws NoSuchElementException {
         if (start == null)
             throw new NoSuchElementException();
         
-            Square item = start.data;
+            T item = start.data;
         start = start.next;
         return item;
     }
@@ -51,7 +51,7 @@ public class myQueue implements QueueADT<Square> {
      * @return the front item in the queue
      * @throws NoSuchElementException if the queue is empty
      */
-    public Square front() throws NoSuchElementException {
+    public T front() throws NoSuchElementException {
         if (start == null)
             throw new NoSuchElementException();
         return start.data;
@@ -93,10 +93,10 @@ public class myQueue implements QueueADT<Square> {
 
     // Node class
     private class Node {
-        public Square data; 
+        public T data; 
         public Node next;
 
-        public Node(Square x) {
+        public Node(T x) {
             this.data = x;
             this.next = null;
         }

@@ -1,10 +1,10 @@
 import java.util.ArrayList;
-import java.util.Queue;
+import java.util.Stack;
 
 public abstract class mazeSolver {
 
     protected Maze maze;
-    protected myQueue worklist;
+    //protected myQueue worklist;
     
 
 
@@ -48,7 +48,7 @@ public abstract class mazeSolver {
 
     public boolean isSolved()
     {
-        return (worklist.contains(maze.getFinish()) || worklist.isEmpty());
+        return ( || this.isEmpty());
     }
 
     /*
@@ -58,16 +58,25 @@ public abstract class mazeSolver {
      */
     public String getPath()
     {
-        String path = "[";
-        if(!isSolved()) return ("There is no solution to the Maze.");
+        String path = "";
+        if(!this.isSolved()) return ("There is no solution to the Maze.");
         
-        if (worklist.isEmpty()) return ("There is no possible path.");
+        if (this.isEmpty()) return ("There is no possible path.");
         
-        for (Square x : worklist) {
-            path += " "+x.getRow()+","+x.getCol()+"]";
-        }
-        return path;
 
+        Stack<String> track = new Stack<>();
+        Square foo = maze.getFinish();
+        while (!foo.equals(maze.getStart())) {
+            track.push(", ["+foo.getRow()+", "+foo.getCol()+"]");
+            foo = foo.getPrev();
+        }
+
+        path += "["+foo.getRow()+", "+foo.getCol()+"]";
+        while(!track.isEmpty()) {
+            path += track.pop();
+        }
+
+        return path;
     }
 
     /*
@@ -78,7 +87,7 @@ public abstract class mazeSolver {
     {
         Square foo;
         // if worklist empty, terminate program
-        if (worklist.isEmpty())
+        if (this.isEmpty())
         {
             return null; 
         }
@@ -94,7 +103,7 @@ public abstract class mazeSolver {
     }
     public void solve()
     {
-        while (!worklist.isEmpty())
+        while (!this.isEmpty())
         {
             step(); 
         }
