@@ -4,19 +4,19 @@ import java.util.Stack;
 public abstract class mazeSolver {
 
     protected Maze maze;
-    //protected myQueue worklist;
-    
+    protected myQueue<Square> worklist;
 
     /*
-     * Create a non-abstract constructor that takes a Maze as a parameter and stores it in a variable that
-     * childrens 
+     * Create a non-abstract constructor that takes a Maze as a parameter and stores
+     * it in a variable that
+     * childrens
      */
-    public mazeSolver(Maze maze)
-    {
+    public mazeSolver(Maze maze) {
         this.maze = maze;
-        //worklist.enqueue(maze.getStart());
+        worklist = new myQueue<>();
+        worklist.enqueue(maze.getStart());
     }
-    
+
     /*
      * create an empty worklist
      */
@@ -25,53 +25,53 @@ public abstract class mazeSolver {
     /*
      * return true if the worklist is empty
      */
-    public abstract boolean isEmpty(); 
+    public abstract boolean isEmpty();
 
     /*
      * add the given Square to the worklist
      * when adding square, set square.prev
      */
-    public abstract void add(Square sq); 
+    public abstract void add(Square sq);
 
     /*
      * return the "next" item from the worklist
      */
-    public abstract Square next(); 
+    public abstract Square next();
 
     /*
-     * A non-abstract method that the application program 
-     * can use to see if this algorithm has solved this maze. 
-     * That is, has it determined the path to the exit or if 
+     * A non-abstract method that the application program
+     * can use to see if this algorithm has solved this maze.
+     * That is, has it determined the path to the exit or if
      * there is no path.
      */
 
-    public boolean isSolved()
-    {
+    public boolean isSolved() {
         return (maze.getFinish().getPrev() != null || this.isEmpty());
     }
 
     /*
-     * Returns either a string of the solution path as a list of coordinates [i,j] 
+     * Returns either a string of the solution path as a list of coordinates [i,j]
      * from the start to the exit or a message indicating no such path exists
-        If the maze isn't solved, you should probably return a message indicating such.
+     * If the maze isn't solved, you should probably return a message indicating
+     * such.
      */
-    public String getPath()
-    {
+    public String getPath() {
         String path = "";
-        if(!this.isSolved()) return ("There is no solution to the Maze.");
-        
-        if (this.isEmpty()) return ("There is no possible path.");
-        
+        if (!this.isSolved())
+            return ("There is no solution to the Maze.");
+
+        if (this.isEmpty())
+            return ("There is no possible path.");
 
         Stack<String> track = new Stack<>();
         Square foo = maze.getFinish();
         while (!foo.equals(maze.getStart())) {
-            track.push(", ["+foo.getRow()+", "+foo.getCol()+"]");
+            track.push(", [" + foo.getRow() + ", " + foo.getCol() + "]");
             foo = foo.getPrev();
         }
 
-        path += "["+foo.getRow()+", "+foo.getCol()+"]";
-        while(!track.isEmpty()) {
+        path += "[" + foo.getRow() + ", " + foo.getCol() + "]";
+        while (!track.isEmpty()) {
             path += track.pop();
         }
 
@@ -79,45 +79,42 @@ public abstract class mazeSolver {
     }
 
     /*
-     * perform one iteration of the algorithm above (i.e., steps 1 through 5) and return
-     *  the Square that was just explored (and null if no such Square exists). 
+     * perform one iteration of the algorithm above (i.e., steps 1 through 5) and
+     * return
+     * the Square that was just explored (and null if no such Square exists).
      */
-    public Square step()
-    {
+
+    public Square step() {
         Square foo;
         // if worklist empty, terminate program
-        if (this.isEmpty())
-        {
-            return null; 
-        }
-        // grab next location; aka next square in the queue / stack
-        foo = this.next();
-        if (foo.getRow() == maze.getFinish().getRow() && foo.getCol() == maze.getFinish().getCol()) {
+        if (this.isEmpty()) {
             return null;
         }
-        // check if that location is the finish, if it is, terminate and the thing is solved
+        // grab next loc
+        foo = this.next();
+        // check if that location is the finish, if it is, terminate and the thing is
+        // solved
+        //
         // else, explore adjacent squares and add them to the queue / stack
-        else {
-            ArrayList neighbors = maze.getNeighbors(foo);
-            for (Object x : neighbors) {
-                if (((Square) x).getType() == 0) {
-                    ((Square) x).setPrev(foo);
-                    ((Square) x).setType(4);
-                    this.add((Square) x);
-                }
+        ArrayList neighbors = maze.getNeighbors(foo);
+        for (Object x : neighbors) {
+            if (((Square) x).getType() == 3) {
+                ((Square) x).setPrev(foo);
             }
-            foo.setType(5);
-            return foo;
+            if (((Square) x).getType() == 0) {
+                ((Square) x).setPrev(foo);
+                ((Square) x).setType(4);
+                this.add((Square) x);
+            }
         }
-
-    }
-    public void solve()
-    {
-        while (!this.isSolved())
-        {
-            step(); 
-        }
+        foo.setType(5);
+        return foo;
     }
 
+    public void solve() {
+        while (!this.isSolved()) {
+            step();
+        }
+    }
 
 }

@@ -90,4 +90,3 @@ Your GitHub branching history should look similar to the following:
 
      To avoid future headaches, ensure that the test thoroughly tests the Queue class. Specifically, make sure to test that the last element in the queue is successfully dequeued.
 
-

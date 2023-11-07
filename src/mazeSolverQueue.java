@@ -6,6 +6,7 @@ public class mazeSolverQueue extends mazeSolver {
     public mazeSolverQueue(Maze maze) {
         super(maze);
         worklist = new myQueue<>();
+        worklist.enqueue(maze.getStart());
     }
 
     public void makeEmpty() {

@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.*;
 import java.io.File;
-import java.io.FileNotFoundException; 
+import java.io.FileNotFoundException;
 
 public class Maze {
     private Square[][] maze;
@@ -14,8 +14,7 @@ public class Maze {
      * @param String fname
      */
     public boolean loadMaze(String fname) {
-        try(Scanner in = new Scanner(new File(fname)))
-        {
+        try (Scanner in = new Scanner(new File(fname))) {
             this.numRows = Integer.parseInt(in.next());
             this.numCols = Integer.parseInt(in.next());
 
@@ -28,12 +27,11 @@ public class Maze {
                         start = maze[row][col];
                     if (maze[row][col].getType() == 3)
                         end = maze[row][col];
-                    
+
                 }
             }
             return true;
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             System.out.println("Cant open file");
         }
         return false;
@@ -47,9 +45,9 @@ public class Maze {
 
         if (row != 0) // North
             neighbors.add(maze[row - 1][col]);
-        if (col != this.numRows) // East
+        if (col != this.numCols - 1) // East
             neighbors.add(maze[row][col + 1]);
-        if (row != this.numCols) // South
+        if (row != this.numRows - 1) // South
             neighbors.add(maze[row + 1][col]);
         if (col != 0) // West
             neighbors.add(maze[row][col - 1]);
@@ -68,7 +66,7 @@ public class Maze {
     public void reset() {
         for (int row = 0; row < maze.length; row++) {
             for (int col = 0; col < maze[0].length; col++) {
-                if (maze[row][col].getType() == 5)
+                if (maze[row][col].getType() == 4 || maze[row][col].getType() == 5 || maze[row][col].getType() == 6)
                     maze[row][col].reset();
             }
         }
