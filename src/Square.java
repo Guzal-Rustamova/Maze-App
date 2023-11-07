@@ -18,6 +18,10 @@ public class Square {
         return this.col;
     }
 
+    public void setType(int x) { 
+        this.type = x;
+    }
+
     public int getType() {
         return this.type;
     }

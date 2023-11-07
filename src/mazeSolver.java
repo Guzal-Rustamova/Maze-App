@@ -7,7 +7,6 @@ public abstract class mazeSolver {
     //protected myQueue worklist;
     
 
-
     /*
      * Create a non-abstract constructor that takes a Maze as a parameter and stores it in a variable that
      * childrens 
@@ -48,7 +47,7 @@ public abstract class mazeSolver {
 
     public boolean isSolved()
     {
-        return ( || this.isEmpty());
+        return (maze.getFinish().getPrev() != null || this.isEmpty());
     }
 
     /*
@@ -93,17 +92,28 @@ public abstract class mazeSolver {
         }
         // grab next location; aka next square in the queue / stack
         foo = this.next();
-        if (foo.getRow() == maze.getFinish().getRow() && foo.getCol() == maze.getFinish().getCol()) return null;
+        if (foo.getRow() == maze.getFinish().getRow() && foo.getCol() == maze.getFinish().getCol()) {
+            return null;
+        }
         // check if that location is the finish, if it is, terminate and the thing is solved
         // else, explore adjacent squares and add them to the queue / stack
         else {
-            this.add(foo); return foo;
+            ArrayList neighbors = maze.getNeighbors(foo);
+            for (Object x : neighbors) {
+                if (((Square) x).getType() == 0) {
+                    ((Square) x).setPrev(foo);
+                    ((Square) x).setType(4);
+                    this.add((Square) x);
+                }
+            }
+            foo.setType(5);
+            return foo;
         }
 
     }
     public void solve()
     {
-        while (!this.isEmpty())
+        while (!this.isSolved())
         {
             step(); 
         }
