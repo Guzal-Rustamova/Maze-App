@@ -60,12 +60,15 @@ public abstract class mazeSolver {
         if (!this.isSolved())
             return ("There is no solution to the Maze.");
 
-        if (this.isEmpty())
+        if (maze.getFinish().getPrev() == null && this.isEmpty())
             return ("There is no possible path.");
 
         Stack<String> track = new Stack<>();
         Square foo = maze.getFinish();
         while (!foo.equals(maze.getStart())) {
+            if (foo.getType() != 3) {
+                foo.setType(6);
+            }
             track.push(", [" + foo.getRow() + ", " + foo.getCol() + "]");
             foo = foo.getPrev();
         }
