@@ -66,6 +66,7 @@ public class Maze {
     public void reset() {
         for (int row = 0; row < maze.length; row++) {
             for (int col = 0; col < maze[0].length; col++) {
+                maze[row][col].setPrev(null);
                 if (maze[row][col].getType() == 4 || maze[row][col].getType() == 5 || maze[row][col].getType() == 6)
                     maze[row][col].reset();
             }
