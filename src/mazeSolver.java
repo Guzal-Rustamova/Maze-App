@@ -46,7 +46,17 @@ public abstract class mazeSolver {
      */
 
     public boolean isSolved() {
-        return (maze.getFinish().getPrev() != null || this.isEmpty());
+        if (maze.getFinish().getPrev() != null || this.isEmpty()) {
+            Square foo = maze.getFinish();
+            while (!foo.equals(maze.getStart())) {
+                if (foo.getType() != 3 && foo.getType() != 2) {
+                    foo.setType(6);
+                }
+                foo = foo.getPrev();
+            }
+            return true;
+        }
+        return false;
     }
 
     /*
@@ -66,9 +76,6 @@ public abstract class mazeSolver {
         Stack<String> track = new Stack<>();
         Square foo = maze.getFinish();
         while (!foo.equals(maze.getStart())) {
-            if (foo.getType() != 3) {
-                foo.setType(6);
-            }
             track.push(", [" + foo.getRow() + ", " + foo.getCol() + "]");
             foo = foo.getPrev();
         }
@@ -110,7 +117,8 @@ public abstract class mazeSolver {
                 this.add((Square) x);
             }
         }
-        foo.setType(5);
+        if (foo.getType() != 2 && foo.getType() != 3)
+            foo.setType(5);
         return foo;
     }
 
